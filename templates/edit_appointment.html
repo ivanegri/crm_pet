@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Agendamento</h1>
+
+<div class="card" style="max-width: 600px;">
+    <h2>Atualizar Agendamento</h2>
+    <form method="POST">
+        <label>Pet</label>
+        <select name="pet_id" required>
+            {% for pet in pets %}
+            <option value="{{ pet.id }}" {% if pet.id==appt.pet_id %}selected{% endif %}>{{ pet.name }} ({{
+                pet.tutor.name }})</option>
+            {% endfor %}
+        </select>
+
+        <label>Serviço</label>
+        <select name="service" required>
+            <option value="Banho" {% if appt.service=='Banho' %}selected{% endif %}>Banho</option>
+            <option value="Tosa" {% if appt.service=='Tosa' %}selected{% endif %}>Tosa</option>
+            <option value="Banho e Tosa" {% if appt.service=='Banho e Tosa' %}selected{% endif %}>Banho e Tosa</option>
+            <option value="Consulta" {% if appt.service=='Consulta' %}selected{% endif %}>Consulta</option>
+        </select>
+
+        <label>Data e Hora</label>
+        <input type="datetime-local" name="date_time" value="{{ appt.date_time.strftime('%Y-%m-%dT%H:%M') }}" required>
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="Scheduled" {% if appt.status=='Scheduled' %}selected{% endif %}>Agendado</option>
+            <option value="Completed" {% if appt.status=='Completed' %}selected{% endif %}>Concluído</option>
+            <option value="Canceled" {% if appt.status=='Canceled' %}selected{% endif %}>Cancelado</option>
+        </select>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit">Salvar Alterações</button>
+            <a href="{{ url_for('appointments') }}"
+                style="padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--glass-border); color: white; text-decoration: none; text-align: center;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

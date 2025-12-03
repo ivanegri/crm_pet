@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Venda</h1>
+
+<div class="card" style="max-width: 600px;">
+    <h2>Atualizar Venda</h2>
+    <p style="margin-bottom: 1rem; color: #94a3b8;">Produto: <strong>{{ sale.product.name }}</strong></p>
+
+    <form method="POST">
+        <label>Preço Total (R$)</label>
+        <input type="number" step="0.01" name="price" value="{{ sale.total }}" required>
+
+        <label>Cliente</label>
+        <select name="tutor_id">
+            <option value="" {% if not sale.tutor_id %}selected{% endif %}>Cliente Avulso</option>
+            {% for tutor in tutors %}
+            <option value="{{ tutor.id }}" {% if tutor.id==sale.tutor_id %}selected{% endif %}>{{ tutor.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit">Salvar Alterações</button>
+            <a href="{{ url_for('sales') }}"
+                style="padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--glass-border); color: white; text-decoration: none; text-align: center;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

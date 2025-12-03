@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Pet</h1>
+
+<div class="card" style="max-width: 600px;">
+    <h2>Atualizar Dados do Pet</h2>
+    <form method="POST">
+        <label>Nome do Pet</label>
+        <input type="text" name="name" value="{{ pet.name }}" required>
+
+        <label>Raça</label>
+        <input type="text" name="breed" value="{{ pet.breed }}">
+
+        <label>Idade</label>
+        <input type="number" name="age" value="{{ pet.age }}">
+
+        <label>Tutor</label>
+        <select name="tutor_id" required>
+            {% for tutor in tutors %}
+            <option value="{{ tutor.id }}" {% if tutor.id==pet.tutor_id %}selected{% endif %}>{{ tutor.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit">Salvar Alterações</button>
+            <a href="{{ url_for('pets') }}"
+                style="padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--glass-border); color: white; text-decoration: none; text-align: center;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

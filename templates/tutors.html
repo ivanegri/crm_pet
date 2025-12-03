@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Gerenciar Tutores</h1>
+
+<div class="grid">
+    <div class="card">
+        <h2>Novo Tutor</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Nome Completo" required>
+            <input type="text" name="phone" placeholder="Telefone / WhatsApp" required>
+            <input type="text" name="address" placeholder="Endereço">
+            <button type="submit">Cadastrar Tutor</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Lista de Tutores</h2>
+            <form method="GET" action="{{ url_for('tutors') }}" style="flex-direction: row; max-width: 300px;">
+                <input type="text" name="search" placeholder="Buscar por nome..."
+                    value="{{ request.args.get('search', '') }}">
+                <button type="submit" style="width: auto;">🔍</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Endereço</th>
+                        <th>Pets</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tutor in tutors %}
+                    <tr>
+                        <td>{{ tutor.name }}</td>
+                        <td>{{ tutor.phone }}</td>
+                        <td>{{ tutor.address }}</td>
+                        <td>{{ tutor.pets|length }}</td>
+                        <td style="display: flex; gap: 0.5rem;">
+                            <a href="{{ url_for('edit_tutor', id=tutor.id) }}" class="badge"
+                                style="text-decoration: none; cursor: pointer;">Editar</a>
+                            <a href="{{ url_for('delete_tutor', id=tutor.id) }}" class="badge"
+                                style="background: rgba(239, 68, 68, 0.2); color: #f87171; text-decoration: none; cursor: pointer;"
+                                onclick="return confirm('Tem certeza que deseja excluir este tutor?');">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

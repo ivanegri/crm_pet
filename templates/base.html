@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Shop CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <span>🐾 Pet CRM</span>
+            <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}"
+                        class="{{ 'active' if request.endpoint == 'index' else '' }}">Dashboard</a></li>
+                <li><a href="{{ url_for('tutors') }}"
+                        class="{{ 'active' if request.endpoint == 'tutors' else '' }}">Tutores</a></li>
+                <li><a href="{{ url_for('pets') }}"
+                        class="{{ 'active' if request.endpoint == 'pets' else '' }}">Pets</a></li>
+                <li><a href="{{ url_for('appointments') }}"
+                        class="{{ 'active' if request.endpoint == 'appointments' else '' }}">Agendamentos</a></li>
+                <li><a href="{{ url_for('sales') }}"
+                        class="{{ 'active' if request.endpoint == 'sales' else '' }}">Vendas</a></li>
+                <li><a href="{{ url_for('reports') }}"
+                        class="{{ 'active' if request.endpoint == 'reports' else '' }}">Relatórios</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

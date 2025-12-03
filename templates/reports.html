@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Relatórios Gerenciais</h1>
+
+<div class="grid">
+    <!-- Summary Cards -->
+    <div class="card">
+        <h2>💰 Vendas Totais</h2>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">R$ {{ "%.2f"|format(total_sales) }}
+        </p>
+        <p style="color: #94a3b8;">Acumulado geral</p>
+    </div>
+
+    <div class="card">
+        <h2>📅 Este Mês</h2>
+        <p style="font-size: 1.5rem;">Vendas: <span style="color: var(--secondary-accent);">R$ {{
+                "%.2f"|format(sales_this_month) }}</span></p>
+        <p style="font-size: 1.5rem;">Agendamentos: <span style="color: var(--secondary-accent);">{{ appts_this_month
+                }}</span></p>
+    </div>
+</div>
+
+<div class="grid">
+    <!-- Sales by Product -->
+    <div class="card">
+        <h2>🏆 Vendas por Produto</h2>
+        {% if sales_by_product %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product_name, quantity, total in sales_by_product %}
+                    <tr>
+                        <td>{{ product_name }}</td>
+                        <td>{{ quantity }}</td>
+                        <td>R$ {{ "%.2f"|format(total) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: #94a3b8;">Nenhuma venda registrada.</p>
+        {% endif %}
+    </div>
+
+    <!-- Appointments by Service -->
+    <div class="card">
+        <h2>🛁 Agendamentos por Serviço</h2>
+        {% if appts_by_service %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service, count in appts_by_service %}
+                    <tr>
+                        <td>{{ service }}</td>
+                        <td>{{ count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: #94a3b8;">Nenhum agendamento registrado.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

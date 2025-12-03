@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="grid">
+    <div class="card">
+        <h2>📅 Banhos Hoje</h2>
+        {% if appointments %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Pet</th>
+                        <th>Serviço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td>{{ appt.date_time.strftime('%H:%M') }}</td>
+                        <td>{{ appt.pet.name }}</td>
+                        <td><span class="badge">{{ appt.service }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: #94a3b8; margin-top: 1rem;">Nenhum agendamento para hoje.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>💰 Vendas Recentes</h2>
+        {% if sales %}
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sale in sales %}
+                    <tr>
+                        <td>{{ sale.product.name }}</td>
+                        <td>R$ {{ "%.2f"|format(sale.total) }}</td>
+                        <td>{{ sale.date.strftime('%d/%m') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: #94a3b8; margin-top: 1rem;">Nenhuma venda recente.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Gerenciar Pets</h1>
+
+<div class="grid">
+    <div class="card">
+        <h2>Novo Pet</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Nome do Pet" required>
+            <input type="text" name="breed" placeholder="Raça">
+            <input type="number" name="age" placeholder="Idade">
+            <select name="tutor_id" required>
+                <option value="" disabled selected>Selecione o Tutor</option>
+                {% for tutor in tutors %}
+                <option value="{{ tutor.id }}">{{ tutor.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Cadastrar Pet</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Lista de Pets</h2>
+            <form method="GET" action="{{ url_for('pets') }}" style="flex-direction: row; max-width: 300px;">
+                <input type="text" name="search" placeholder="Buscar pet ou tutor..."
+                    value="{{ request.args.get('search', '') }}">
+                <button type="submit" style="width: auto;">🔍</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Raça</th>
+                        <th>Idade</th>
+                        <th>Tutor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pet in pets %}
+                    <tr>
+                        <td>{{ pet.name }}</td>
+                        <td>{{ pet.breed }}</td>
+                        <td>{{ pet.age }} anos</td>
+                        <td>{{ pet.tutor.name }}</td>
+                        <td style="display: flex; gap: 0.5rem;">
+                            <a href="{{ url_for('edit_pet', id=pet.id) }}" class="badge"
+                                style="text-decoration: none; cursor: pointer;">Editar</a>
+                            <a href="{{ url_for('delete_pet', id=pet.id) }}" class="badge"
+                                style="background: rgba(239, 68, 68, 0.2); color: #f87171; text-decoration: none; cursor: pointer;"
+                                onclick="return confirm('Tem certeza que deseja excluir este pet?');">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

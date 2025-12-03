@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Editar Tutor</h1>
+
+<div class="card" style="max-width: 600px;">
+    <h2>Atualizar Dados</h2>
+    <form method="POST">
+        <label>Nome Completo</label>
+        <input type="text" name="name" value="{{ tutor.name }}" required>
+
+        <label>Telefone</label>
+        <input type="text" name="phone" value="{{ tutor.phone }}" required>
+
+        <label>Endereço</label>
+        <input type="text" name="address" value="{{ tutor.address }}">
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit">Salvar Alterações</button>
+            <a href="{{ url_for('tutors') }}"
+                style="padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--glass-border); color: white; text-decoration: none; text-align: center;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

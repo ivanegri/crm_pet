@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Agendamentos</h1>
+
+<div class="grid">
+    <div class="card">
+        <h2>Novo Agendamento</h2>
+        <form method="POST">
+            <select name="pet_id" required>
+                <option value="" disabled selected>Selecione o Pet</option>
+                {% for pet in pets %}
+                <option value="{{ pet.id }}">{{ pet.name }} ({{ pet.tutor.name }})</option>
+                {% endfor %}
+            </select>
+            <select name="service" required>
+                <option value="Banho">Banho</option>
+                <option value="Tosa">Tosa</option>
+                <option value="Banho e Tosa">Banho e Tosa</option>
+                <option value="Consulta">Consulta</option>
+            </select>
+            <input type="datetime-local" name="date_time" required>
+            <button type="submit">Agendar</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Próximos Agendamentos</h2>
+            <form method="GET" action="{{ url_for('appointments') }}" style="flex-direction: row; max-width: 300px;">
+                <input type="text" name="search" placeholder="Pet, Tutor ou Serviço..."
+                    value="{{ request.args.get('search', '') }}">
+                <button type="submit" style="width: auto;">🔍</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Pet</th>
+                        <th>Serviço</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td>{{ appt.date_time.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ appt.pet.name }}</td>
+                        <td><span class="badge">{{ appt.service }}</span></td>
+                        <td>{{ appt.status }}</td>
+                        <td style="display: flex; gap: 0.5rem;">
+                            <a href="{{ url_for('edit_appointment', id=appt.id) }}" class="badge"
+                                style="text-decoration: none; cursor: pointer;">Editar</a>
+                            <a href="{{ url_for('delete_appointment', id=appt.id) }}" class="badge"
+                                style="background: rgba(239, 68, 68, 0.2); color: #f87171; text-decoration: none; cursor: pointer;"
+                                onclick="return confirm('Tem certeza que deseja excluir este agendamento?');">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
