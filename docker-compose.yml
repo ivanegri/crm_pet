@@ -7,9 +7,8 @@ services:
       - "5000:5000"
     volumes:
       - ./instance:/app/instance
-    # Uncomment the lines below if you need to pass credentials to the app
     # environment:
-    #   - SOME_ENV_VAR=value
+    #   - SECRET_KEY=sua_chave_secreta_aqui
 
   watchtower:
     image: containrrr/watchtower
@@ -17,6 +16,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      # Mount the docker config to share credentials (required for private GHCR images)
-      - /home/ivan/.docker/config.json:/config.json
+      # Se a imagem for PÚBLICA, remova a linha abaixo.
+      # Se for PRIVADA, garanta que o docker login foi feito no servidor e use:
+      # - /root/.docker/config.json:/config.json  <-- Exemplo para usuário root
     command: --interval 300 --cleanup
