@@ -1,9 +1,13 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from models import db, Tutor, Pet, Appointment, Product, Sale
 from datetime import datetime
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///crm_pet.db"
+# Ensure the instance folder exists
+os.makedirs(app.instance_path, exist_ok=True)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(app.instance_path, 'crm_pet.db')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
